@@ -1,0 +1,60 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Real-Time Litter Watch AI - System Configuration
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Model settings
+models:
+  weights_path: "best.pt"       # Custom fine-tuned YOLOv11 TACO model (18 classes)
+  hf_repo_id: ""                # (Optional) Hugging Face repo fallback
+  hf_filename: "best.pt"
+  pose_model: "yolo11n-pose.pt" # Pose estimation for wrist/hand detection
+  device: "auto"                # 'auto', 'cuda', 'cpu', or device ID
+
+# Performance & Latency Optimization (Crucial for CPU real-time performance)
+performance:
+  process_every_n_frames: 2     # Process heavy neural nets every 2nd frame (doubles FPS on CPU!)
+  inference_imgsz: 640          # Input resolution to YOLO models (640 is fast and accurate)
+
+# Detection thresholds
+thresholds:
+  person_conf: 0.35             # Balanced threshold for human detection
+  waste_conf: 0.15              # Lowered from 0.25 so smaller and distant litter is detected!
+  keypoint_conf: 0.25           # Lowered from 0.45 so distant wrists are captured reliably
+
+# Interaction & Tracking Logic
+interaction:
+  # Proximity ratio relative to person height (Scale-invariant)
+  hand_distance_ratio: 0.38     # Item is within 38% of person's total pixel height (covers hands & arms)
+  fallback_held_distance_px: 90 # Used if wrists are completely occluded
+  min_held_frames: 4            # Minimum frames held to register verified possession
+  unattended_frames_alert: 50   # Frames before confirming litter alert (~1.8s at 30 fps)
+  iou_match_threshold: 0.20     # Spatial overlap for multi-object association
+  track_lost_ttl: 20            # Maximum frames to keep lost tracks before pruning
+  ground_ratio: 0.20            # Accept items in bottom 80% of frame
+
+# Evidence Recorder
+recorder:
+  enabled: true
+  output_dir: "incidents"
+  buffer_seconds: 5             # Length of rolling buffer clip prior to & including drop
+  fps: 30.0
+
+# Camera & Capture
+camera:
+  default_index: 0
+  width: 1280
+  height: 720
+  use_dshow: true               # DirectShow backend for Windows to prevent MSMF stutter
+  threaded_capture: true        # Non-blocking threaded capture (eliminates 1-2s lag delay!)
+
+# UI Theme Palette (BGR)
+ui:
+  accent_cyan: [220, 200, 0]    # Electric cyan / gold for person & tracker
+  green_safe: [80, 220, 80]     # Safe / held object
+  amber_warning: [30, 165, 255] # Unattended countdown
+  red_alert: [40, 40, 255]      # Confirmed litter
+  red_bright: [80, 80, 255]
+  dark_bg: [12, 12, 14]
+  panel_bg: [18, 20, 22]        # Telemetry sidebar
+  panel_line: [45, 48, 52]
+  panel_width: 260

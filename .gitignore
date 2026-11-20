@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Model weights (large binaries)
+*.pt
+*.onnx
+*.engine
+# Keep the custom fine-tuned weights
+!best.pt
+
+# Video files & artifacts
+*.mp4
+*.avi
+*.mov
+
+# Incident recordings & snapshots
+incidents/
+
+# Environments & IDE
+.venv/
+venv/
+ENV/
+.idea/
+.vscode/
