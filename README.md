@@ -231,5 +231,5 @@ tests/test_pipeline.py::test_recorder_buffer PASSED             [100%]
 
 ## 📄 License & Credits
 
-Distributed under the MIT License. Developed by **[Expendior](https://github.com/expendior)**.
+Distributed under the MIT License. Developed by **Margarette Irish Tuagan** ([@expendior](https://github.com/expendior)) and **John Venick Marquez**.
 Built with [Ultralytics YOLO](https://github.com/ultralytics/ultralytics), [PyTorch](https://pytorch.org/), and [OpenCV](https://opencv.org/). Dataset credits to [TACO (Trash Annotations in Context)](http://tacodataset.org/).
